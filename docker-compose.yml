@@ -1,0 +1,27 @@
+---
+services:
+  openssh-server:
+    image: openssh:ubuntu-22.04
+    container_name: openssh-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      # - PUBLIC_KEY=public_key_value #optional
+      - PUBLIC_KEY_FILE=/keys/id_key.pub #optional
+      # - PUBLIC_KEY_DIR=/path/to/directory/containing/_only_/pubkeys #optional
+      # - PUBLIC_KEY_URL=https://github.com/username.keys #optional
+      # - SUDO_ACCESS=true #optional
+      - PASSWORD_ACCESS=true #optional
+      - USER_PASSWORD=password #optional
+      # - USER_PASSWORD_FILE=/path/to/file #optional
+      - USER_NAME=${USER_NAME} #optional
+      # - LOG_STDOUT= #optional
+      # - FILE__TESTVAR=/var/run/testfile
+    volumes:
+      # - ./testfile:/var/run/testfile # content of the testfile will be in the value of env var TESTVAR
+      - ~/.ssh/id_ed25519.pub:/keys/id_key.pub
+      - ./testhome:/home/${USER_NAME}
+    ports:
+      - 2222:2222
+    restart: unless-stopped
