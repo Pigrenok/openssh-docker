@@ -84,7 +84,7 @@ First of all, build the image:
 ```bash
 git clone https://github.com/pigrenok/openssh-docker.git
 cd openssh-docker
-docker build --rm -t openssh:latest .
+docker build --rm -t openssh-docker:latest .
 ```
 
 Now the easiest option to run the container is to use docker compose. An example `docker-compose.yml` is included in this repository. It comes together with `.env` file, which allows you to set specific variables and use them in docker compose definition. In this example, it is `USER_NAME` which is used to define username and mount external home directory for persistence. There are other ways to pass variables to `docker compose`

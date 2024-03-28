@@ -1,7 +1,7 @@
 ---
 services:
   openssh-server:
-    image: openssh:ubuntu-22.04
+    image: openssh-docker:latest
     container_name: openssh-server
     environment:
       - PUID=1000
