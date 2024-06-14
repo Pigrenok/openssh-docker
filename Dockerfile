@@ -4,7 +4,7 @@ RUN apt update && apt upgrade -y && echo y | unminimize
 
 # Install necessary packages
 RUN apt update && \
-    apt install -y openssh-server sudo curl wget supervisor nano && \
+    apt install -y openssh-server sudo curl wget supervisor nano less && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir /var/run/sshd
 
