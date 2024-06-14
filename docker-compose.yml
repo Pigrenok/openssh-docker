@@ -1,6 +1,7 @@
 ---
 services:
   openssh-server:
+    build: ./
     image: openssh-docker:latest
     container_name: openssh-server
     environment:
