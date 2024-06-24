@@ -10,7 +10,7 @@ I tried to replicate the interface of [LinuxServer.io](https://docs.linuxserver.
 
 The server is set via setting environment variables and docker secrets. Some variables do not have default value. In this case, it will have example instead of default value in brackets `[]`.
 
-| <VARIABLE>=<default> | Description |
+| \<VARIABLE\>=\<default\> | Description |
 |------|------|
 | PUID=1000 | for UserID - see below for explanation |
 | PGID=1000 | for GroupID - see below for explanation |
