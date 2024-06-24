@@ -1,8 +1,10 @@
 # Inspiration
 
-This docker image was inspired by fantastic [OpenSSH image](https://docs.linuxserver.io/images/docker-openssh-server/) created by [LinuxServer.io](https://docs.linuxserver.io/). Unfortunately, that image was based on Alpine linux, which makes it hard to use tools that heavily rely on *glibc*. Because I was creating a test and educational image to run multiple bioinformatics tools, many of which plainly refuse to run on Alpine linux.
+This docker image was inspired by fantastic [OpenSSH image](https://docs.linuxserver.io/images/docker-openssh-server/) created by [LinuxServer.io](https://docs.linuxserver.io/). Unfortunately, that image was based on Alpine linux, which makes it hard to use tools that heavily rely on *glibc*. Because I was creating a test and educational image to run multiple bioinformatics tools, many of which plainly refuse to run on Alpine linux, I had to make an effort and try to replicate the functionality using Ubuntu image.
 
-I tried to replicate the interface of [LinuxServer.io](https://docs.linuxserver.io/) image, but due to limited time and resources, it may not be 100% compatible. If you notice any incompatibility or incorrect behaviour, please, raise an issue.
+I tried to replicate the interface of [LinuxServer.io](https://docs.linuxserver.io/) image, but due to limited time and resources, it may not be 100% compatible. If you notice any incompatibility or incorrect behaviour, please, raise an issue or make a PR.
+
+**WARNING:** This image was created only for testing and educational purposes. There was little considerations given to the security of the image. So, if you are going to run sensitive applications, please, make sure you extensively test the security and reliability of the image. The authors do not guarantee and cannot be help liable for any loss from use of this repository.
 
 # Environment variables
 
@@ -68,12 +70,24 @@ services:
 
 if using compose. Where possible, to improve security, we recommend mounting them read-only (:ro) so that container processes cannot write to the location.
 
-Running cron is as simple as a single file. Drop this script in /custom-services.d/cron and it will run automatically in the container:
+Running cron is simple, for instance. In Dockerfile add the following (can be expanded to run several cron jobs or add file instead of writing it):
+
+```bash
+RUN echo "*/1 * * * * /root/cron_job.sh > /proc/1/fd/1 2> /proc/1/fd/1" >> /tmp/crontab_root
+
+RUN crontab -u root /tmp/crontab_root
+
+RUN rm /tmp/crontab_root
+```
+
+Please, note the trick `> /proc/1/fd/1 2> /proc/1/fd/1`. It is passing all output from both STDOUT and STDERR to the STDOUT of the process 1, which means that it will be recorded in the docker container output. You can choose other logging methods if you wish.
+
+After that, drop the following script in /custom-services.d/cron.sh and it will run automatically in the container:
 
 ```bash
 #!/usr/bin/with-contenv bash
 
-/usr/sbin/crond -f -S -l 0 -c /etc/crontabs
+/usr/sbin/crond -f
 ```
 
 With this example, you will most likely need to have cron installed via a custom script using the technique in the previous section, and will need to populate the crontab.
