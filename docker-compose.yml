@@ -14,7 +14,7 @@ services:
       # - PUBLIC_KEY_URL=https://github.com/username.keys #optional
       # - SUDO_ACCESS=true #optional
       - PASSWORD_ACCESS=true #optional
-      - USER_PASSWORD=password #optional
+      - USER_PASSWORD=${PASSWORD} #optional
       # - USER_PASSWORD_FILE=/path/to/file #optional
       - USER_NAME=${USER_NAME} #optional
       # - LOG_STDOUT= #optional
